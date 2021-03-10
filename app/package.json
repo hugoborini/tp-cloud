@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "help": "echo 'to run the node server: npm run serv\n'",
-    "serv": "npx nodemon server/server.js -w server"
+    "serv": "npx nodemon server/index.js -w server",
+    "start": "node server/index.js"
   },
   "repository": {
     "type": "git",
