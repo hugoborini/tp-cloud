@@ -23,9 +23,17 @@ data.all = () => {
     });
 }
 
+
+/**
+ * @param table str
+ * @param column str
+ * @param value str
+ * @returns {Promise}
+ */
+
 data.additem = (table , column, value) => {
     return new Promise((resolve, reject) =>{
-        pool.query(`INSERT INTO ? (?) VALUES (?)`, [table, column, value] ,(err, results) => {
+        pool.query(`INSERT INTO ${table} (${column}) VALUES (?)`, [value] ,(err, results) => {
             if (err){
                 return reject(err);
             }
@@ -34,9 +42,32 @@ data.additem = (table , column, value) => {
     });
 }
 
+/**
+ * @param nameEleve str
+ * @param lastNameEleve str
+ * @param id_class int
+ * @returns {Promise}
+ */
+
 data.addEleve = (nameEleve , lastNameEleve, id_class) => {
     return new Promise((resolve, reject) =>{
-        pool.query(`INSERT INTO ${table} (${column}) VALUES (${value})`, (err, results) => {
+        pool.query(`INSERT INTO eleve (nameEleve, lastNameEleve, id_class) VALUES(?,?,?)`,[nameEleve, lastNameEleve, id_class], (err, results) => {
+            if (err){
+                return reject(err);
+            }
+            return resolve (results);
+        });
+    });
+}
+
+/**
+ * @param nameClass str
+ * @returns {id_class} int
+ */
+
+data.getIdClassByName = (nameClass) => {
+    return new Promise((resolve, reject) =>{
+        pool.query(`SELECT id_class FROM class WHERE nameClass = ? `,[nameClass], (err, results) => {
             if (err){
                 return reject(err);
             }

@@ -17,6 +17,8 @@ router.get('/', async(req, res, next) =>{
     try{
         auth("aaa", "aaa", async ()=>{
             let results = await db.all();
+            console.log(results);
+            
             res.json(results);
         }, async () =>{
             console.log("api Key not valid")
@@ -30,7 +32,7 @@ router.get('/', async(req, res, next) =>{
 })
 
 
-router.post('/addClasse', async(req, res, next) =>{
+router.post('/addClass', async(req, res, next) =>{
 
     try{
         auth("aaa", "aaa", async ()=>{
@@ -70,9 +72,16 @@ router.post('/addMatiere', async(req, res, next) =>{
 router.post('/addEleve', async(req, res, next) =>{
 
     try{
-        auth("aaa", "aaa", async ()=>{
-            let results = await db.additem("eleve", "nameEleve", req.body.nameEleve);
-            res.json(results);
+        auth("aaa", "aaa", async () => {
+            let id_requete = await db.getIdClassByName(req.body.nameClass)
+
+            let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class
+
+            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class)
+
+            res.json(result)
+
+
         }, async () =>{
             console.log("api Key not valid")
             res.sendStatus(403);
