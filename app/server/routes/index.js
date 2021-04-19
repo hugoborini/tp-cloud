@@ -48,28 +48,28 @@ router.post('/addClass', async (req, res, next) => {
 
 router.post('/addMatiere', async (req, res, next) => {
 
-    try{
-            auth("aa", "aaa", async () => {
+    try {
+        auth("aa", "aaa", async () => {
 
-                try{
-                    let results = await db.additem("matiere", "nameMatiere", req.body.nameMatiere);
-                    console.log("ocjzfjzerifjezifjzeifj");
-                    res.json(results);
-                } catch(e){
-                    console.log(e)
+            try {
+                let results = await db.additem("matiere", "nameMatiere", req.body.nameMatiere);
+                console.log("ocjzfjzerifjezifjzeifj");
+                res.json(results);
+            } catch (e) {
+                console.log(e)
 
-                    if(e.code === "ER_DUP_ENTRY"){
-                        res.json({status : "matiere deja rentrée"})
-                    } else{
-                        res.sendStatus(500)
-                    }
+                if (e.code === "ER_DUP_ENTRY") {
+                    res.json({ status: "matiere deja rentrée" })
+                } else {
+                    res.sendStatus(500)
                 }
-                
-            })
+            }
+
+        })
     }
-    catch(e){
+    catch (e) {
         console.log(e);
-        res.status(403);
+        res.sendStatus(403);
     }
 })
 
