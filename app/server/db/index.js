@@ -23,9 +23,21 @@ data.all = () => {
     });
 }
 
-data.addclass = (className) => {
+data.addclass = (nameClass) => {
     return new Promise((resolve, reject) =>{
-        pool.query(`INSERT INTO class (nameClasse) VALUES (${className})`, (err, results) => {
+        pool.query(`INSERT INTO class (nameClasse) VALUES (${nameClass})`, (err, results) => {
+            if (err){
+                return reject(err);
+            }
+            return resolve (results);
+        });
+    });
+}
+
+
+data.addmatiere = (nameMatiere) => {
+    return new Promise((resolve, reject) =>{
+        pool.query(`INSERT INTO matiere (nameMatiere) VALUES (${nameMatiere})`, (err, results) => {
             if (err){
                 return reject(err);
             }

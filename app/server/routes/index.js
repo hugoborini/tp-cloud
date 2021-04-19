@@ -32,10 +32,9 @@ router.get('/', async(req, res, next) =>{
 
 router.post('/addClasse', async(req, res, next) =>{
 
-
     try{
         auth("aaa", "aaa", async ()=>{
-            let results = await db.addclass(req.body.className);
+            let results = await db.addclass(req.body.nameClass);
             res.json(results);
         }, async () =>{
             console.log("api Key not valid")
@@ -46,6 +45,25 @@ router.post('/addClasse', async(req, res, next) =>{
         console.log(e);
         res.sendStatus(500);
     }
+})
+
+
+router.post('/addMatiere', async(req, res, next) =>{
+
+    try{
+        auth("aaa", "aaa", async ()=>{
+            let results = await db.addclass(req.body.nameMatiere);
+            res.json(results);
+        }, async () =>{
+            console.log("api Key not valid")
+            res.sendStatus(403);
+        })
+
+    } catch(e){
+        console.log(e);
+        res.sendStatus(500);
+    }
+
 })
 
 
