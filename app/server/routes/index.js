@@ -16,14 +16,11 @@ router.get('/', async (req, res, next) => {
             console.log(results);
 
             res.json(results);
-        }, async () => {
-            console.log("api Key not valid")
-            res.sendStatus(403);
         })
 
     } catch (e) {
         console.log(e);
-        res.sendStatus(500);
+        res.sendStatus(403);
     }
 })
 
@@ -32,16 +29,13 @@ router.post('/addClass', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let results = await db.additem("class", "nameClass", req.body.nameClass);
+            let results = await db.additem("classes", "nameClass", req.body.nameClass);
             res.json(results);
-        }, async () => {
-            console.log("api Key not valid")
-            res.sendStatus(403);
         })
 
     } catch (e) {
         console.log(e);
-        res.sendStatus(500);
+        res.sendStatus(403);
     }
 })
 
@@ -49,11 +43,10 @@ router.post('/addClass', async (req, res, next) => {
 router.post('/addMatiere', async (req, res, next) => {
 
     try {
-        auth("aa", "aaa", async () => {
+        auth("aaa", "aaa", async () => {
 
             try {
                 let results = await db.additem("matiere", "nameMatiere", req.body.nameMatiere);
-                console.log("ocjzfjzerifjezifjzeifj");
                 res.json(results);
             } catch (e) {
                 console.log(e)
@@ -78,23 +71,20 @@ router.post('/addEleve', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let id_requete = await db.getIdClassByName(req.body.nameClass);
+            let id_requete = await db.getIdItemByName("classes", "nameClass" ,req.body.nameClass);
 
-            let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
-
-            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class);
-
+            let id_classes = JSON.parse(JSON.stringify(id_requete))[0].id_classes;
+            
+            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_classes);
+            
             res.json(result);
 
 
-        }, async () => {
-            console.log("api Key not valid")
-            res.sendStatus(403);
         })
 
     } catch (e) {
         console.log(e);
-        res.sendStatus(500);
+        res.sendStatus(403);
     }
 
 })
@@ -112,14 +102,11 @@ router.post('/addProf', async (req, res, next) => {
             res.json(result);
 
 
-        }, async () => {
-            console.log("api Key not valid")
-            res.sendStatus(403);
         })
 
     } catch (e) {
         console.log(e);
-        res.sendStatus(500);
+        res.sendStatus(403);
     }
 
 })

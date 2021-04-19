@@ -49,9 +49,9 @@ data.additem = (table, column, value) => {
  * @returns {Promise}
  */
 
-data.addEleve = (nameEleve, lastNameEleve, id_class) => {
+data.addEleve = (nameEleve, lastNameEleve, id_classes) => {
     return new Promise((resolve, reject) => {
-        pool.query(`INSERT INTO eleve (nameEleve, lastNameEleve, id_class) VALUES(?,?,?)`, [nameEleve, lastNameEleve, id_class], (err, results) => {
+        pool.query(`INSERT INTO eleves (nameEleve, lastNameEleve, id_classes) VALUES(?,?,?)`, [nameEleve, lastNameEleve, id_classes], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -67,7 +67,7 @@ data.addEleve = (nameEleve, lastNameEleve, id_class) => {
 
 data.getIdClassByName = (nameClass) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT id_class FROM class WHERE nameClass = ? `, [nameClass], (err, results) => {
+        pool.query(`SELECT id_classes FROM classes WHERE nameClass = ? `, [nameClass], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -99,9 +99,9 @@ data.addProf = (nameProf, lastNameProf, id_matiere) => {
  * @returns {id_matiere} int
  */
 
-data.getIdMatiereByName = (nameMatiere) => {
+data.getIdItemByName = (table, column, value) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT id_matiere FROM matiere WHERE nameMatiere = ? `, [nameMatiere], (err, results) => {
+        pool.query(`SELECT id_${table} FROM ${table} WHERE ${column} = ? `, [value], (err, results) => {
             if (err) {
                 return reject(err);
             }
