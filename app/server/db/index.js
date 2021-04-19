@@ -23,9 +23,9 @@ data.all = () => {
     });
 }
 
-data.addclass = (nameClass) => {
+data.additem = (table , column, value) => {
     return new Promise((resolve, reject) =>{
-        pool.query(`INSERT INTO class (nameClasse) VALUES (${nameClass})`, (err, results) => {
+        pool.query(`INSERT INTO ? (?) VALUES (?)`, [table, column, value] ,(err, results) => {
             if (err){
                 return reject(err);
             }
@@ -34,10 +34,9 @@ data.addclass = (nameClass) => {
     });
 }
 
-
-data.addmatiere = (nameMatiere) => {
+data.addEleve = (nameEleve , lastNameEleve, id_class) => {
     return new Promise((resolve, reject) =>{
-        pool.query(`INSERT INTO matiere (nameMatiere) VALUES (${nameMatiere})`, (err, results) => {
+        pool.query(`INSERT INTO ${table} (${column}) VALUES (${value})`, (err, results) => {
             if (err){
                 return reject(err);
             }
@@ -45,6 +44,7 @@ data.addmatiere = (nameMatiere) => {
         });
     });
 }
+
 
 
 
