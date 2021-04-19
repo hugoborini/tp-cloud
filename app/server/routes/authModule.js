@@ -1,8 +1,14 @@
-const auth = async (apiKey, apiKeyToverif, callbacksucess, callbackerror) => {
-    if (apiKey != apiKeyToverif){
-        return callbackerror();
-    } else{
+const auth = (apiKey, apiKeyToverif, callbacksucess) => {
+    return new Promise(function (resolve, reject) {
+        if (apiKey === apiKeyToverif)
+            resolve();
+        else
+            reject();
+    });
+    if (apiKey === apiKeyToverif){
         return callbacksucess();
+    } else{
+        throw "api key not valid"; 
     }
 }
 

@@ -48,20 +48,29 @@ router.post('/addClass', async (req, res, next) => {
 
 router.post('/addMatiere', async (req, res, next) => {
 
-    try {
-        auth("aaa", "aaa", async () => {
-            let results = await db.additem("matiere", "nameMatiere", req.body.nameMatiere);
-            res.json(results);
-        }, async () => {
-            console.log("api Key not valid")
-            res.sendStatus(403);
-        })
+    try{
+            auth("aa", "aaa", async () => {
 
-    } catch (e) {
-        console.log(e);
-        res.sendStatus(500);
+                try{
+                    let results = await db.additem("matiere", "nameMatiere", req.body.nameMatiere);
+                    console.log("ocjzfjzerifjezifjzeifj");
+                    res.json(results);
+                } catch(e){
+                    console.log(e)
+
+                    if(e.code === "ER_DUP_ENTRY"){
+                        res.json({status : "matiere deja rentrée"})
+                    } else{
+                        res.sendStatus(500)
+                    }
+                }
+                
+            })
     }
-
+    catch(e){
+        console.log(e);
+        res.status(403);
+    }
 })
 
 

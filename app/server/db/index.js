@@ -110,4 +110,21 @@ data.getIdMatiereByName = (nameMatiere) => {
     });
 }
 
+/**
+ * @param nameMatiere str
+ * @returns {id_matiere} int
+ */
+
+data.checkIfMatiereExist = (nameMatiere) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT id_matiere FROM matiere WHERE nameMatiere = ? `, [nameMatiere], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+}
+
+
 module.exports = data;
