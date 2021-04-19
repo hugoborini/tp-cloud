@@ -29,7 +29,7 @@ router.post('/addClass', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let results = await db.additem("classes", "nameClass", req.body.nameClass);
+            let results = await db.additem("class", "nameClass", req.body.nameClass);
             res.json(results);
         })
 
@@ -71,11 +71,11 @@ router.post('/addEleve', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let id_requete = await db.getIdItemByName("classes", "nameClass" ,req.body.nameClass);
+            let id_requete = await db.getIdItemByName("class", "nameClass" ,req.body.nameClass);
 
-            let id_classes = JSON.parse(JSON.stringify(id_requete))[0].id_classes;
+            let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
             
-            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_classes);
+            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class);
             
             res.json(result);
 

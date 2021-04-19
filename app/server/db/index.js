@@ -51,7 +51,7 @@ data.additem = (table, column, value) => {
 
 data.addEleve = (nameEleve, lastNameEleve, id_classes) => {
     return new Promise((resolve, reject) => {
-        pool.query(`INSERT INTO eleves (nameEleve, lastNameEleve, id_classes) VALUES(?,?,?)`, [nameEleve, lastNameEleve, id_classes], (err, results) => {
+        pool.query(`INSERT INTO eleve (nameEleve, lastNameEleve, id_class) VALUES(?,?,?)`, [nameEleve, lastNameEleve, id_classes], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -67,7 +67,7 @@ data.addEleve = (nameEleve, lastNameEleve, id_classes) => {
 
 data.getIdClassByName = (nameClass) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT id_classes FROM classes WHERE nameClass = ? `, [nameClass], (err, results) => {
+        pool.query(`SELECT id_class FROM class WHERE nameClass = ? `, [nameClass], (err, results) => {
             if (err) {
                 return reject(err);
             }
