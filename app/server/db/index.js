@@ -4,8 +4,8 @@ require('dotenv').config()
 const pool = mysql.createPool({
     connectionLimit: 10,
     password: process.env.DB_PASS,
-    user: process.env.DB_USER, 
-    database: process.env.DB_NAME, 
+    user: process.env.DB_USER,
+    database: process.env.DB_NAME,
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
 });
@@ -13,12 +13,12 @@ const pool = mysql.createPool({
 let data = {};
 
 data.all = () => {
-    return new Promise((resolve, reject) =>{
+    return new Promise((resolve, reject) => {
         pool.query('SELECT * FROM test', (err, results) => {
-            if (err){
+            if (err) {
                 return reject(err);
             }
-            return resolve (results);
+            return resolve(results);
         });
     });
 }
@@ -31,13 +31,13 @@ data.all = () => {
  * @returns {Promise}
  */
 
-data.additem = (table , column, value) => {
-    return new Promise((resolve, reject) =>{
-        pool.query(`INSERT INTO ${table} (${column}) VALUES (?)`, [value] ,(err, results) => {
-            if (err){
+data.additem = (table, column, value) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`INSERT INTO ${table} (${column}) VALUES (?)`, [value], (err, results) => {
+            if (err) {
                 return reject(err);
             }
-            return resolve (results);
+            return resolve(results);
         });
     });
 }
@@ -49,13 +49,13 @@ data.additem = (table , column, value) => {
  * @returns {Promise}
  */
 
-data.addEleve = (nameEleve , lastNameEleve, id_class) => {
-    return new Promise((resolve, reject) =>{
-        pool.query(`INSERT INTO eleve (nameEleve, lastNameEleve, id_class) VALUES(?,?,?)`,[nameEleve, lastNameEleve, id_class], (err, results) => {
-            if (err){
+data.addEleve = (nameEleve, lastNameEleve, id_class) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`INSERT INTO eleve (nameEleve, lastNameEleve, id_class) VALUES(?,?,?)`, [nameEleve, lastNameEleve, id_class], (err, results) => {
+            if (err) {
                 return reject(err);
             }
-            return resolve (results);
+            return resolve(results);
         });
     });
 }
@@ -66,19 +66,48 @@ data.addEleve = (nameEleve , lastNameEleve, id_class) => {
  */
 
 data.getIdClassByName = (nameClass) => {
-    return new Promise((resolve, reject) =>{
-        pool.query(`SELECT id_class FROM class WHERE nameClass = ? `,[nameClass], (err, results) => {
-            if (err){
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT id_class FROM class WHERE nameClass = ? `, [nameClass], (err, results) => {
+            if (err) {
                 return reject(err);
             }
-            return resolve (results);
+            return resolve(results);
         });
     });
 }
 
+/**
+ * @param nameProf str
+ * @param lastNameProf str
+ * @param id_matiere int
+ * @returns {Promise} 
+ */
 
+data.addProf = (nameProf, lastNameProf, id_matiere) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`INSERT INTO prof (nameProf, lastNameProf, id_matiere) VALUES(?,?,?)`, [nameProf, lastNameProf, id_matiere], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+}
 
+/**
+ * @param nameMatiere str
+ * @returns {id_matiere} int
+ */
 
-
+data.getIdMatiereByName = (nameMatiere) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT id_matiere FROM matiere WHERE nameMatiere = ? `, [nameMatiere], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+}
 
 module.exports = data;

@@ -1,4 +1,4 @@
-const express =  require("express");
+const express = require("express");
 const db = require("../db");
 const router = express.Router();
 const auth = require("./authModule")
@@ -7,61 +7,57 @@ const { request } = require("express");
 
 
 
-router.get
+router.get('/', async (req, res, next) => {
 
 
-
-router.get('/', async(req, res, next) =>{
-
-
-    try{
-        auth("aaa", "aaa", async ()=>{
+    try {
+        auth("aaa", "aaa", async () => {
             let results = await db.all();
             console.log(results);
-            
+
             res.json(results);
-        }, async () =>{
+        }, async () => {
             console.log("api Key not valid")
             res.sendStatus(403);
         })
 
-    } catch(e){
+    } catch (e) {
         console.log(e);
         res.sendStatus(500);
     }
 })
 
 
-router.post('/addClass', async(req, res, next) =>{
+router.post('/addClass', async (req, res, next) => {
 
-    try{
-        auth("aaa", "aaa", async ()=>{
-            let results = await db.additem("class", "nameClass" ,req.body.nameClass);
+    try {
+        auth("aaa", "aaa", async () => {
+            let results = await db.additem("class", "nameClass", req.body.nameClass);
             res.json(results);
-        }, async () =>{
+        }, async () => {
             console.log("api Key not valid")
             res.sendStatus(403);
         })
 
-    } catch(e){
+    } catch (e) {
         console.log(e);
         res.sendStatus(500);
     }
 })
 
 
-router.post('/addMatiere', async(req, res, next) =>{
+router.post('/addMatiere', async (req, res, next) => {
 
-    try{
-        auth("aaa", "aaa", async ()=>{
+    try {
+        auth("aaa", "aaa", async () => {
             let results = await db.additem("matiere", "nameMatiere", req.body.nameMatiere);
             res.json(results);
-        }, async () =>{
+        }, async () => {
             console.log("api Key not valid")
             res.sendStatus(403);
         })
 
-    } catch(e){
+    } catch (e) {
         console.log(e);
         res.sendStatus(500);
     }
@@ -69,25 +65,50 @@ router.post('/addMatiere', async(req, res, next) =>{
 })
 
 
-router.post('/addEleve', async(req, res, next) =>{
+router.post('/addEleve', async (req, res, next) => {
 
-    try{
+    try {
         auth("aaa", "aaa", async () => {
-            let id_requete = await db.getIdClassByName(req.body.nameClass)
+            let id_requete = await db.getIdClassByName(req.body.nameClass);
 
-            let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class
+            let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
 
-            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class)
+            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class);
 
-            res.json(result)
+            res.json(result);
 
 
-        }, async () =>{
+        }, async () => {
             console.log("api Key not valid")
             res.sendStatus(403);
         })
 
-    } catch(e){
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(500);
+    }
+
+})
+
+router.post('/addProf', async (req, res, next) => {
+
+    try {
+        auth("aaa", "aaa", async () => {
+            let id_requete = await db.getIdMatiereByName(req.body.nameMatiere);
+
+            let id_matiere = JSON.parse(JSON.stringify(id_requete))[0].id_matiere;
+
+            let result = await db.addProf(req.body.nameProf, req.body.lastNameProf, id_matiere);
+            console.log(req.body);
+            res.json(result);
+
+
+        }, async () => {
+            console.log("api Key not valid")
+            res.sendStatus(403);
+        })
+
+    } catch (e) {
         console.log(e);
         res.sendStatus(500);
     }
