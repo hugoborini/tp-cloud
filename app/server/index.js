@@ -14,6 +14,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/", APIroutes)
 
+console.log(APIroutes)
 
 app.listen(process.env.PORT || '3000', () =>{
     console.log(`server is running at http://localhost:${process.env.PORT || 3000}`);    
