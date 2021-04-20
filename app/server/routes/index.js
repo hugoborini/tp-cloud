@@ -181,5 +181,30 @@ router.get('/get/EleveFromClass/:nameClass', async (req, res, next) => {
 
 })
 
+router.post('/add/insertNote/:nameEleve/:lastNameEleve', async (req, res, next) => {
+
+    try {
+        auth("aaa", "aaa", async () => {
+            let idEleve = await db.getIdEleve('nameEleve', 'lastNameEleve', req.params.nameEleve, req.params.lastNameEleve);
+            let noteConfig = {
+                id_eleve: idEleve,
+                id_matiere: 1,
+                note: 18,
+                coef: 2,
+                dateNote: new Date(),
+                id_prof: 1
+            }
+            let insert = await db.insertNote(noteConfig)
+            res.json(insert);
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
 
 module.exports = router;

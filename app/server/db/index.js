@@ -115,6 +115,22 @@ data.getIdItemByName = (table, column, value) => {
  * @returns {id_matiere} int
  */
 
+ data.getIdEleve = (columnName, columnLastName, nameEleve, lastNameEleve) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`SELECT id_eleve FROM eleve WHERE ${columnName} = ? AND ${columnLastName} = ?`, [nameEleve, lastNameEleve], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+}
+
+/**
+ * @param nameMatiere str
+ * @returns {id_matiere} int
+ */
+
 data.checkIfMatiereExist = (nameMatiere) => {
     return new Promise((resolve, reject) => {
         pool.query(`SELECT id_matiere FROM matiere WHERE nameMatiere = ? `, [nameMatiere], (err, results) => {
@@ -175,6 +191,16 @@ data.getElevesFromClass = (nameClass) => {
     });
 }
 
+data.insertNote = ({id_eleve, id_matiere, note, coef, dateNote, id_prof}) => {
+    return new Promise((resolve, reject) => {
+        pool.query(`INSERT INTO notes(id_eleve, id_matiere, note, coef, dateNote, id_prof) VALUES(?,?,?,?,?,?)`,[id_eleve, id_matiere, note, coef, dateNote, id_prof], (err, results) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(results);
+        });
+    });
+}
 
 
 
