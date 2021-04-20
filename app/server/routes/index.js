@@ -144,5 +144,42 @@ router.post('/add/ProfToClass', async (req, res, next) => {
 })
 
 
+router.get('/get/Prof/:nameProf', async (req, res, next) => {
+
+    try {
+        auth("aaa", "aaa", async () => {
+
+            let result = await db.getProfInfo(req.params.nameProf)
+
+            res.json(result);
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
+
+router.get('/get/EleveFromClass/:nameClass', async (req, res, next) => {
+
+    try {
+        auth("aaa", "aaa", async () => {
+
+            let result = await db.getElevesFromClass(req.params.nameClass)
+
+            res.json(result);
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
 
 module.exports = router;
