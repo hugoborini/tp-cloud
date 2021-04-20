@@ -25,7 +25,7 @@ router.get('/', async (req, res, next) => {
 })
 
 
-router.post('/addClass', async (req, res, next) => {
+router.post('/add/Class', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
@@ -40,7 +40,7 @@ router.post('/addClass', async (req, res, next) => {
 })
 
 
-router.post('/addMatiere', async (req, res, next) => {
+router.post('/add/Matiere', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
@@ -67,7 +67,7 @@ router.post('/addMatiere', async (req, res, next) => {
 })
 
 
-router.post('/addEleve', async (req, res, next) => {
+router.post('/add/Eleve', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
@@ -89,11 +89,11 @@ router.post('/addEleve', async (req, res, next) => {
 
 })
 
-router.post('/addProf', async (req, res, next) => {
+router.post('/add/Prof', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let id_requete = await db.getIdMatiereByName(req.body.nameMatiere);
+            let id_requete = await db.getIdItemByName("matiere","nameMatiere",req.body.nameMatiere);
 
             let id_matiere = JSON.parse(JSON.stringify(id_requete))[0].id_matiere;
 
@@ -110,6 +110,39 @@ router.post('/addProf', async (req, res, next) => {
     }
 
 })
+
+router.post('/add/ProfToClass', async (req, res, next) => {
+
+    try {
+        auth("aaa", "aaa", async () => {
+            let raw_id_prof = await db.getIdItemByName("prof","nameProf",req.body.nameProf);
+
+            let raw_id_class = await db.getIdItemByName("class", "nameClass", req.body.nameClass)
+
+
+            let id_prof = JSON.parse(JSON.stringify(raw_id_prof))[0].id_prof;
+
+            let id_class = JSON.parse(JSON.stringify(raw_id_class))[0].id_class;
+
+
+            console.log(id_prof)
+
+            console.log(id_class)
+            
+            let result = await db.addProfToLink(id_prof, id_class, req.body.isPrincipal);
+            //console.log(req.body);
+            res.json(result);
+
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
 
 
 module.exports = router;
