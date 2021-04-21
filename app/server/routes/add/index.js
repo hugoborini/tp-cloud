@@ -66,7 +66,7 @@ router.post('/Eleve', async (req, res, next) => {
 
             let result;
             if(student > 0) {
-                result = await db.addEleve(req.body.nameEleve, `${req.body.lastNameEleve}_${student.length + 1}`, id_class);
+                result = await db.addEleve(req.body.nameEleve, `${req.body.lastNameEleve}_${student + 1}`, id_class);
             } else {
                 result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class);
             }

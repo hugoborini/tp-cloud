@@ -7,7 +7,7 @@ const pool = require("../config");
 
 const checkIfStudentExist = (nameEleve, lastNameEleve) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT COUNT(*) AS student FROM eleve WHERE nameEleve = ? AND lower(lastNameEleve) LIKE ?`, [nameEleve, lastNameEleve], (err, results) => {
+        pool.query(`SELECT COUNT(*) as student FROM eleve WHERE lastNameEleve LIKE concat("${lastNameEleve}",'%') and nameEleve = ?`, [nameEleve], (err, results) => {
             if (err) {
                 return reject(err);
             }
