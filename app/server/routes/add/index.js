@@ -134,7 +134,7 @@ router.post('/Note/:nameEleve/:lastNameEleve', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let raw_idEleve = await db.getIdEleve('nameEleve', 'lastNameEleve', req.params.nameEleve, req.params.lastNameEleve);
+            let raw_idEleve = await db.getIdEleve(req.params.nameEleve, req.params.lastNameEleve);
             let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
 
             let raw_matiere = await db.getIdItemByName('matiere', 'nameMatiere', req.body.nameMatiere);
@@ -143,13 +143,18 @@ router.post('/Note/:nameEleve/:lastNameEleve', async (req, res, next) => {
             let raw_prof = await db.getIdItemByName('prof', 'lastNameProf', req.body.lastNameProf);
             let id_prof = JSON.parse(JSON.stringify(raw_prof))[0].id_prof;
 
+            let raw_class = await db.getIdItemByName('class', 'nameClass', req.body.nameClass);
+            let id_class = JSON.parse(JSON.stringify(raw_class))[0].id_class;
+
+
             let noteConfig = {
                 id_eleve: id_eleve,
                 id_matiere: id_matiere,
                 note: req.body.note,
                 coef: req.body.coef,
                 dateNote: req.body.dateNote,
-                id_prof: id_prof
+                id_prof: id_prof,
+                id_class: id_class
             }
             let insert = await db.addNote(noteConfig)
             res.json(insert);

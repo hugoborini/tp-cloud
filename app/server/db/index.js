@@ -16,6 +16,9 @@ const getIdItemByName = require("./get/getIdItemByName");
 const getIdEleve = require("./get/getIdEleve");
 const getProfInfo = require('./get/getProfInfo');
 const getElevesFromClass = require("./get/getElevesFromClass");
+const getNoteByEleve = require("./get/getNoteByEleve");
+const getNoteByClass = require("./get/getNoteByClass")
+const getNoteByMatiereByClass = require("./get/getNoteByMatiereByClass")
 
 // UTILS FUNCTION 
 const checkIfMatiereExist = require("./utils/checkIfMatiereExist");
@@ -42,7 +45,10 @@ let data = {
     getIdEleve,
     getProfInfo,
     getElevesFromClass,
-    checkIfMatiereExist
+    checkIfMatiereExist,
+    getNoteByEleve,
+    getNoteByClass,
+    getNoteByMatiereByClass
 };
 
 data.all = () => {

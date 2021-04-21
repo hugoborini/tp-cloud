@@ -1,8 +1,8 @@
 const pool = require("../config");
 
-const addNote = ({ id_eleve, id_matiere, note, coef, dateNote, id_prof }) => {
+const addNote = ({ id_eleve, id_matiere, note, coef, dateNote, id_prof, id_class }) => {
     return new Promise((resolve, reject) => {
-        pool.query(`INSERT INTO notes(id_eleve, id_matiere, note, coef, dateNote, id_prof) VALUES(?,?,?,?,?,?)`, [id_eleve, id_matiere, note, coef, dateNote, id_prof], (err, results) => {
+        pool.query(`INSERT INTO note(id_eleve, id_matiere, note, coef, dateNote, id_prof, id_class) VALUES(?,?,?,?,?,?,?)`, [id_eleve, id_matiere, note, coef, dateNote, id_prof, id_class], (err, results) => {
             if (err) {
                 return reject(err);
             }
