@@ -1,4 +1,5 @@
 const express = require("express");
+const { raw } = require("mysql");
 const db = require("../../db");
 const router = express.Router();
 const auth = require("../authModule")
@@ -57,14 +58,24 @@ router.post('/Eleve', async (req, res, next) => {
     try {
         auth("aaa", "aaa", async () => {
             let id_requete = await db.getIdItemByName("class", "nameClass", req.body.nameClass);
-
+            
+            let raw_student = await db.checkIfStudentExist(req.body.nameEleve, req.body.lastNameEleve);
             let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
+            
+            let student = JSON.parse(JSON.stringify(raw_student))[0].student;
 
-            let result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class);
+            let result;
+            if(student > 0) {
+                result = await db.addEleve(req.body.nameEleve, `${req.body.lastNameEleve}_${student.length + 1}`, id_class);
+            } else {
+                result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class);
+            }
+
+            console.log(raw_student);
+            console.log(student);
+
 
             res.json(result);
-
-
         })
 
     } catch (e) {

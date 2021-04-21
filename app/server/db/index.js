@@ -25,6 +25,8 @@ const getNoteBytMatiereByEleve = require("./get/getNoteBytMatiereByEleve")
 
 // UTILS FUNCTION 
 const checkIfMatiereExist = require("./utils/checkIfMatiereExist");
+const checkIfStudentExist = require("./utils/checkIfStudentExist");
+
 
 require('dotenv').config()
 
@@ -50,11 +52,12 @@ let data = {
     getIdEleve,
     getProfInfo,
     getElevesFromClass,
-    checkIfMatiereExist,
     getNoteByEleve,
     getNoteByClass,
     getNoteByMatiereByClass,
-    getNoteBytMatiereByEleve
+    getNoteBytMatiereByEleve,
+    checkIfMatiereExist,
+    checkIfStudentExist
 };
 
 data.all = () => {
