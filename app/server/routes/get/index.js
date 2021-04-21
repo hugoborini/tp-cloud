@@ -98,7 +98,7 @@ router.get('/AverageByEleve/:nameEleve/:lastNameEleve', async (req, res, next) =
             results.forEach(result => {
                 somme = somme + result.note * result.coef
                 sommeCoef = sommeCoef + result.coef;
-                
+
                 tabMatiere.push(result.nameMatiere);
 
             });
@@ -238,6 +238,26 @@ router.get('/AverageByClass/:nameClass', async (req, res, next) => {
                 }
             }, 100);
 
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
+
+router.get('/EleveBySearch/:nameEleve/:lastNameEleve', async (req, res, next) => {
+
+    try {
+        auth("aaa", "aaa", async () => {
+
+            let result = await db.getElevesBySearch(req.params.nameEleve, req.params.lastNameEleve)
+            console.log(result);
+            
+            res.json(result);
 
         })
 

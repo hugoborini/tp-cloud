@@ -22,6 +22,7 @@ const getNoteByEleve = require("./get/getNoteByEleve");
 const getNoteByClass = require("./get/getNoteByClass")
 const getNoteByMatiereByClass = require("./get/getNoteByMatiereByClass")
 const getNoteBytMatiereByEleve = require("./get/getNoteBytMatiereByEleve")
+const getElevesBySearch = require ("./get/getElevesBySearch")
 
 // UTILS FUNCTION 
 const checkIfMatiereExist = require("./utils/checkIfMatiereExist");
@@ -55,6 +56,7 @@ let data = {
     getNoteByEleve,
     getNoteByClass,
     getNoteByMatiereByClass,
+    getElevesBySearch,
     getNoteBytMatiereByEleve,
     checkIfMatiereExist,
     checkIfStudentExist
