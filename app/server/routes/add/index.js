@@ -166,6 +166,55 @@ router.post('/Note/:nameEleve/:lastNameEleve', async (req, res, next) => {
     }
 });
 
+router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
 
+    try {
+        auth("aaa", "aaa", async () => {
+            try {
+
+                let raw_idEleve = await db.getIdEleve(req.params.nameEleve, req.params.lastNameEleve);
+                let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
+
+                let configAbsence = {
+                    id_eleve,
+                    dateStart: new Date(),
+                    dateEnd: new Date(),
+                    isJustificate: req.body.isJustificate
+                }
+
+                let results = await db.addAbsence(configAbsence);
+                res.json(results);
+            }
+            catch (e) {
+                console.log(e);
+                if (e.code === "ER_DUP_ENTRY") {
+                    res.json({ status: "class deja rentrée" })
+                } else {
+                    res.sendStatus(500)
+                }
+            }
+        })
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+})
+
+
+router.post('/addJustification/:id_absence', async (req, res, next) => {
+    
+    try {
+        auth("aaa", "aaa", async () => {
+            
+            let result = await db.addJustification(req.params.id_absence, req.body.isJustificate);
+            res.json(result);
+        })
+        
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+    
+})
 
 module.exports = router;

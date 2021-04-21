@@ -7,6 +7,8 @@ const addProf = require("./add/addProf");
 
 const addProfToLink = require("./add/addProfToLink");
 const addNote = require("./add/addNote");
+const addAbsence = require("./add/addAbsence");
+const addJustification = require("./add/addJustification");
 
 
 // GET FUNCTION 
@@ -41,6 +43,8 @@ let data = {
     addProf,
     addProfToLink,
     addNote,
+    addAbsence,
+    addJustification,
     getIdClassByName,
     getIdItemByName,
     getIdEleve,
