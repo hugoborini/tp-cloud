@@ -86,6 +86,9 @@ router.get('/AverageByEleve/:nameEleve/:lastNameEleve', async (req, res, next) =
             let somme = 0;
             let sommeCoef = 0;
             let moyenne = 0;
+            let tabMatiere = [];
+            let globalMoyenne = {};
+
             let raw_idEleve = await db.getIdEleve(req.params.nameEleve, req.params.lastNameEleve);
 
             let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;    
@@ -95,13 +98,52 @@ router.get('/AverageByEleve/:nameEleve/:lastNameEleve', async (req, res, next) =
             results.forEach(result => {
                 somme = somme + result.note * result.coef
                 sommeCoef = sommeCoef + result.coef;
+                
+                tabMatiere.push(result.nameMatiere);
 
             });
+
+            tabMatiere = tabMatiere.filter((matiere, index) => tabMatiere.indexOf(matiere) === index)
 
             moyenne = somme / sommeCoef
         
 
-            res.json({moyenne: moyenne});
+            tabMatiere.forEach(async  matiere =>{
+                
+                let sommeMatiere = 0;
+                let sommeCoefMatiere = 0;
+                let moyenneMatiere = 0;
+    
+                let noteByMatiere = await db.getNoteBytMatiereByEleve(id_eleve, matiere)
+                
+                
+                noteByMatiere.forEach( note =>{
+                
+                    sommeMatiere = sommeMatiere + note.note * note.coef
+                    sommeCoefMatiere = sommeCoefMatiere + note.coef
+
+                })
+
+                moyenneMatiere = sommeMatiere / sommeCoefMatiere
+
+                
+                globalMoyenne[`moyenne_${matiere}`] = moyenneMatiere
+
+                console.log(globalMoyenne);
+                
+                
+            });
+
+            globalMoyenne["moyenneGenerale"] = moyenne;
+
+            const interval = setInterval(() => {
+                if(Object.keys(globalMoyenne).length > tabMatiere.length ){
+                    clearInterval(interval)
+                    res.json(globalMoyenne)
+                    
+                }
+            }, 100);
+
 
         })
 
@@ -137,10 +179,6 @@ router.get('/AverageByClass/:nameClass', async (req, res, next) => {
         auth("aaa", "aaa", async () => {
             let globalMoyenne = {}
 
-            let sommeMatiere = 0;
-            let sommeCoefMatiere = 0;
-            let moyenneMatiere = 0;
-
             let tabMatiere = [];
 
             let somme = 0;
@@ -156,11 +194,10 @@ router.get('/AverageByClass/:nameClass', async (req, res, next) => {
                 tabMatiere.push(result.nameMatiere);
             })
             
-            //console.log(tabMatiere)
 
             tabMatiere = tabMatiere.filter((matiere, index) => tabMatiere.indexOf(matiere) === index)
             
-
+            console.log(tabMatiere)
 
             tabMatiere.forEach(async  matiere =>{
                 
@@ -182,19 +219,15 @@ router.get('/AverageByClass/:nameClass', async (req, res, next) => {
 
                 
                 globalMoyenne[`moyenne_${matiere}`] = moyenneMatiere
-
-                console.log(globalMoyenne);
                 
                 
             });
 
-            console.log(globalMoyenne);
             
             moyenne = somme / sommeCoef
 
             globalMoyenne["moyenneGenerale"] = moyenne;
 
-            console.log(Object.keys(globalMoyenne).length)
 
 
             const interval = setInterval(() => {
