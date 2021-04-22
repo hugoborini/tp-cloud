@@ -2,7 +2,8 @@ const express = require("express");
 const { raw } = require("mysql");
 const db = require("../../db");
 const router = express.Router();
-const auth = require("../authModule")
+const auth = require("../authModule");
+
 
 
 router.post('/Class', async (req, res, next) => {
@@ -58,18 +59,26 @@ router.post('/Eleve', async (req, res, next) => {
     try {
         auth("aaa", "aaa", async () => {
             let id_requete = await db.getIdItemByName("class", "nameClass", req.body.nameClass);
-            
+
             let raw_student = await db.checkIfStudentExist(req.body.nameEleve, req.body.lastNameEleve);
             let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
             console.log(id_requete);
-            
+
             let student = JSON.parse(JSON.stringify(raw_student))[0].student;
 
             let result;
-            if(student > 0) {
-                result = await db.addEleve(req.body.nameEleve, `${req.body.lastNameEleve}_${student + 1}`, id_class, req.body.emailEleve);
+            let eleveInfos = {
+                nameEleve: req.body.nameEleve,
+                lastNameEleve: req.body.lastNameEleve,
+                id_class: id_class,
+                emailEleve: req.body.emailEleve,
+                numeroEleve: req.body.numeroEleve
+            }
+            if (student > 0) {
+                eleveInfos.lastNameEleve = `${req.body.lastNameEleve}_${student + 1}`;
+                result = await db.addEleve(eleveInfos);
             } else {
-                result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class, req.body.emailEleve);
+                result = await db.addEleve(eleveInfos);
             }
 
             res.json(result);
@@ -182,7 +191,8 @@ router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
 
                 let raw_info_eleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
                 let id_eleve = JSON.parse(JSON.stringify(raw_info_eleve))[0].id_eleve;
-                let email_eleve = JSON.parse(JSON.stringify(raw_info_eleve))[0].emailEleve;
+                let emailEleve = JSON.parse(JSON.stringify(raw_info_eleve))[0].emailEleve;
+                let numeroEleve = JSON.parse(JSON.stringify(raw_info_eleve))[0].numeroEleve;
 
 
                 let configAbsence = {
@@ -193,16 +203,18 @@ router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
                 }
 
                 let configEmail = {
-                    to: email_eleve,
+                    to: emailEleve,
                     from: "hugo.borini@hetic.net",
-                    subject: `absence du ${dateStart} au ${dateEnd}`,
-                    text: `Absence du ${dateStart} au ${dateEnd}`,
-                    html: 
-                    `<h1>Absence</h1>
-                    <p>du ${dateStart} au ${dateEnd}</p>`
+                    subject: `absence du ${configAbsence.dateStart} au ${configAbsence.dateEnd}`,
+                    text: `Vous avez été absent du ${configAbsence.dateStart} au ${configAbsence.dateEnd}, merci de justifier votre absence`,
+                    html:
+                        `<h1>Absence</h1>
+                    <p>du ${configAbsence.dateStart} au ${configAbsence.dateEnd}</p>`
                 }
 
-                db.sendMail(configEmail)
+                db.sendMail(configEmail);
+
+                db.sendSms(`Vous avez été absent du ${configAbsence.dateStart} au ${configAbsence.dateEnd}, merci de justifier votre absence`, numeroEleve);
 
                 let results = await db.addAbsence(configAbsence);
                 res.json(results);
@@ -224,19 +236,19 @@ router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
 
 
 router.post('/addJustification/:id_absence', async (req, res, next) => {
-    
+
     try {
         auth("aaa", "aaa", async () => {
-            
+
             let result = await db.addJustification(req.params.id_absence, req.body.isJustificate);
             res.json(result);
         })
-        
+
     } catch (e) {
         console.log(e);
         res.sendStatus(403);
     }
-    
+
 })
 
 module.exports = router;

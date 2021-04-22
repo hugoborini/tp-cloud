@@ -19,27 +19,18 @@ const getInfoEleve = require("./get/getInfoEleve");
 const getProfInfo = require('./get/getProfInfo');
 const getElevesFromClass = require("./get/getElevesFromClass");
 const getNoteByEleve = require("./get/getNoteByEleve");
-const getNoteByClass = require("./get/getNoteByClass")
-const getNoteByMatiereByClass = require("./get/getNoteByMatiereByClass")
-const getNoteBytMatiereByEleve = require("./get/getNoteBytMatiereByEleve")
-const getElevesBySearch = require ("./get/getElevesBySearch")
+const getNoteByClass = require("./get/getNoteByClass");
+const getNoteByMatiereByClass = require("./get/getNoteByMatiereByClass");
+const getNoteBytMatiereByEleve = require("./get/getNoteBytMatiereByEleve");
+const getElevesBySearch = require("./get/getElevesBySearch");
+const getAbsenceByEleve = require("./get/getAbsenceByEleve");
 
 // UTILS FUNCTION 
 const checkIfMatiereExist = require("./utils/checkIfMatiereExist");
 const checkIfStudentExist = require("./utils/checkIfStudentExist");
 const sendMail = require("./utils/sendEmail");;
-
-
-require('dotenv').config()
-
-const pool = mysql.createPool({
-    connectionLimit: 10,
-    password: process.env.DB_PASS,
-    user: process.env.DB_USER,
-    database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-});
+const sendSms = require("./utils/sendSms");
+const pool = require("./config");
 
 let data = {
     addItem,
@@ -59,9 +50,11 @@ let data = {
     getNoteByMatiereByClass,
     getElevesBySearch,
     getNoteBytMatiereByEleve,
+    getAbsenceByEleve,
     checkIfMatiereExist,
     checkIfStudentExist,
-    sendMail
+    sendMail,
+    sendSms
 };
 
 data.all = () => {
