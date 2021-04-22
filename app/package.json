@@ -27,6 +27,7 @@
     "express": "^4.17.1",
     "mailchimp-api-v3": "^1.15.0",
     "mysql": "^2.18.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "twilio": "^3.61.0"
   }
 }
