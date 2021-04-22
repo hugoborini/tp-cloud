@@ -19,6 +19,6 @@ app.use("/add", addApiRoutes);
 app.use("/get", getApiRoutes);
 
 
-app.listen(process.env.PORT || '3000', () => {
-    console.log(`server is running at http://localhost:${process.env.PORT || 3000}`);
+app.listen(process.env.PORT || '8005', () => {
+    console.log(`server is running at http://localhost:${process.env.PORT || 8005}`);
 })
