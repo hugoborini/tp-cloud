@@ -1,5 +1,5 @@
 const auth = (apiKey, apiKeyToverif, callbacksucess) => {
-    if (apiKey === apiKeyToverif) {
+    if (Object.values(apiKeyToverif[0]).includes(apiKey)) {
         return callbacksucess();
     } else {
         throw "api key not valid";

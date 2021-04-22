@@ -30,6 +30,7 @@ const checkIfMatiereExist = require("./utils/checkIfMatiereExist");
 const checkIfStudentExist = require("./utils/checkIfStudentExist");
 const sendMail = require("./utils/sendEmail");;
 const sendSms = require("./utils/sendSms");
+const getAllAPiKeys = require('./utils/fireBaseQuery');
 const pool = require("./config");
 
 let data = {
@@ -54,7 +55,8 @@ let data = {
     checkIfMatiereExist,
     checkIfStudentExist,
     sendMail,
-    sendSms
+    sendSms,
+    getAllAPiKeys
 };
 
 data.all = () => {

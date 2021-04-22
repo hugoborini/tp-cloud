@@ -9,25 +9,17 @@ const db = admin.firestore();
 
 const API_KEYS_REF = db.collection('API_KEYS');
 
-// const callFireBase = async () => {
-//     const result = await API_KEYS_REF.get();
-//     return result;
-// }
-
-// .then(keys => keys.forEach(key => key.data()));
 
 const getAllAPiKeys = async () => {
-    try {
-        let keys;
-        // const result = await API_KEYS_REF.get();
-        // response.forEach(key => keys = key.data());
-        return keys;
-    }
-    catch (e) {
-        console.log(e);
-    }
+    let keys = [];
+    const result = await API_KEYS_REF.get();
+    result.forEach(key => keys.push(key.data()));
+    return keys;
+
 }
 
 
-console.log(getAllAPiKeys());
+// (async () => { console.log(await getAllAPiKeys()) })()
+
+module.exports = getAllAPiKeys;
 
