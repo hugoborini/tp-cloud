@@ -5,9 +5,10 @@ const auth = require("../authModule");
 const getAllApiKeys = db.getAllAPiKeys;
 
 
-router.get('/', async (req, res, next) => {
+router.get('/:api_key_cl/', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let results = await db.all();
             console.log(results);
 
@@ -20,10 +21,10 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.get('/Prof/:nameProf', async (req, res, next) => {
-    let API_KEYS = await getAllApiKeys();
+router.get('/:api_key_cl/Prof/:nameProf', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("12345", API_KEYS, async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
 
             let result = await db.getProfInfo(req.params.nameProf)
 
@@ -38,10 +39,10 @@ router.get('/Prof/:nameProf', async (req, res, next) => {
 });
 
 
-router.get('/EleveFromClass/:nameClass', async (req, res, next) => {
-
+router.get('/:api_key_cl/EleveFromClass/:nameClass', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
 
             let result = await db.getElevesFromClass(req.params.nameClass)
 
@@ -56,10 +57,10 @@ router.get('/EleveFromClass/:nameClass', async (req, res, next) => {
 
 })
 
-router.get('/NoteByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
-
+router.get('/:api_key_cl/NoteByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let raw_idEleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
 
             let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
@@ -79,10 +80,10 @@ router.get('/NoteByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
 
 
 
-router.get('/AverageByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
-
+router.get('/:api_key_cl/AverageByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let somme = 0;
             let sommeCoef = 0;
             let moyenne = 0;
@@ -155,10 +156,10 @@ router.get('/AverageByEleve/:nameEleve/:lastNameEleve', async (req, res, next) =
 })
 
 
-router.get('/NoteByClass/:nameClass', async (req, res, next) => {
-
+router.get('/:api_key_cl/NoteByClass/:nameClass', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
 
             let result = await db.getNoteByClass(req.params.nameClass)
 
@@ -173,10 +174,10 @@ router.get('/NoteByClass/:nameClass', async (req, res, next) => {
 
 })
 
-router.get('/AverageByClass/:nameClass', async (req, res, next) => {
-
+router.get('/:api_key_cl/AverageByClass/:nameClass', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let globalMoyenne = {}
 
             let tabMatiere = [];
@@ -248,10 +249,10 @@ router.get('/AverageByClass/:nameClass', async (req, res, next) => {
 })
 
 
-router.get('/EleveBySearch/:nameEleve/:lastNameEleve', async (req, res, next) => {
-
+router.get('/:api_key_cl/EleveBySearch/:nameEleve/:lastNameEleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
 
             let result = await db.getElevesBySearch(req.params.nameEleve, req.params.lastNameEleve)
             console.log(result);
@@ -267,10 +268,10 @@ router.get('/EleveBySearch/:nameEleve/:lastNameEleve', async (req, res, next) =>
 
 })
 
-router.get('/AbsenceByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
-
+router.get('/:api_key_cl/AbsenceByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
 
             let result = await db.getAbsenceByEleve(req.params.nameEleve, req.params.lastNameEleve);
 

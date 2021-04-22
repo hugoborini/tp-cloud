@@ -3,13 +3,15 @@ const { raw } = require("mysql");
 const db = require("../../db");
 const router = express.Router();
 const auth = require("../authModule");
+const getAllApiKeys = db.getAllAPiKeys;
 
 
 
-router.post('/Class', async (req, res, next) => {
 
+router.post('/:api_key_cl/Class', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             try {
                 let results = await db.addItem("class", "nameClass", req.body.nameClass);
                 res.json(results);
@@ -28,10 +30,10 @@ router.post('/Class', async (req, res, next) => {
     }
 })
 
-router.post('/Matiere', async (req, res, next) => {
-
+router.post('/:api_key_cl/Matiere', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
 
             try {
                 let results = await db.addItem("matiere", "nameMatiere", req.body.nameMatiere);
@@ -54,10 +56,10 @@ router.post('/Matiere', async (req, res, next) => {
     }
 })
 
-router.post('/Eleve', async (req, res, next) => {
-
+router.post('/:api_key_cl/Eleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let id_requete = await db.getIdItemByName("class", "nameClass", req.body.nameClass);
 
             let raw_student = await db.checkIfStudentExist(req.body.nameEleve, req.body.lastNameEleve);
@@ -91,10 +93,10 @@ router.post('/Eleve', async (req, res, next) => {
 
 })
 
-router.post('/Prof', async (req, res, next) => {
-
+router.post('/:api_key_cl/Prof', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let id_requete = await db.getIdItemByName("matiere", "nameMatiere", req.body.nameMatiere);
 
             let id_matiere = JSON.parse(JSON.stringify(id_requete))[0].id_matiere;
@@ -113,10 +115,10 @@ router.post('/Prof', async (req, res, next) => {
 
 })
 
-router.post('/ProfToClass', async (req, res, next) => {
-
+router.post('/:api_key_cl/ProfToClass', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let raw_id_prof = await db.getIdItemByName("prof", "nameProf", req.body.nameProf);
 
             let raw_id_class = await db.getIdItemByName("class", "nameClass", req.body.nameClass)
@@ -147,10 +149,10 @@ router.post('/ProfToClass', async (req, res, next) => {
 
 
 
-router.post('/Note/:nameEleve/:lastNameEleve', async (req, res, next) => {
-
+router.post('/:api_key_cl/Note/:nameEleve/:lastNameEleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             let raw_idEleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
             let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
 
@@ -183,10 +185,10 @@ router.post('/Note/:nameEleve/:lastNameEleve', async (req, res, next) => {
     }
 });
 
-router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
-
+router.post('/:api_key_cl/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
             try {
 
                 let raw_info_eleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
@@ -235,10 +237,10 @@ router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
 })
 
 
-router.post('/addJustification/:id_absence', async (req, res, next) => {
-
+router.post('/:api_key_cl/addJustification/:id_absence', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
     try {
-        auth("aaa", "aaa", async () => {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
 
             let result = await db.addJustification(req.params.id_absence, req.body.isJustificate);
             res.json(result);
