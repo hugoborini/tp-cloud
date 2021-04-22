@@ -7,9 +7,9 @@ const pool = require("../config");
  * @returns {Promise}
  */
 
-const addEleve = (nameEleve, lastNameEleve, id_classes) => {
+const addEleve = (nameEleve, lastNameEleve, id_classes, emailEleve) => {
     return new Promise((resolve, reject) => {
-        pool.query(`INSERT INTO eleve (nameEleve, lastNameEleve, id_class) VALUES(?,?,?)`, [nameEleve, lastNameEleve, id_classes], (err, results) => {
+        pool.query(`INSERT INTO eleve (nameEleve, lastNameEleve, id_class, emailEleve) VALUES(?,?,?,?)`, [nameEleve, lastNameEleve, id_classes, emailEleve], (err, results) => {
             if (err) {
                 return reject(err);
             }

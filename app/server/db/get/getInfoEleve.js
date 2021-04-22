@@ -8,9 +8,9 @@ const pool = require("../config");
  * @param lastNameEleve str
  */
 
-const getIdEleve = (nameEleve, lastNameEleve) => {
+const getInfoEleve = (nameEleve, lastNameEleve) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT id_eleve FROM eleve WHERE nameEleve = ? AND lastNameEleve = ?`, [nameEleve, lastNameEleve], (err, results) => {
+        pool.query(`SELECT id_eleve, emailEleve FROM eleve WHERE nameEleve = ? AND lastNameEleve = ?`, [nameEleve, lastNameEleve], (err, results) => {
             if (err) {
                 return reject(err);
             }
@@ -19,4 +19,4 @@ const getIdEleve = (nameEleve, lastNameEleve) => {
     });
 };
 
-module.exports = getIdEleve;
+module.exports = getInfoEleve;

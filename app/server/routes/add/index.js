@@ -61,19 +61,16 @@ router.post('/Eleve', async (req, res, next) => {
             
             let raw_student = await db.checkIfStudentExist(req.body.nameEleve, req.body.lastNameEleve);
             let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
+            console.log(id_requete);
             
             let student = JSON.parse(JSON.stringify(raw_student))[0].student;
 
             let result;
             if(student > 0) {
-                result = await db.addEleve(req.body.nameEleve, `${req.body.lastNameEleve}_${student + 1}`, id_class);
+                result = await db.addEleve(req.body.nameEleve, `${req.body.lastNameEleve}_${student + 1}`, id_class, req.body.emailEleve);
             } else {
-                result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class);
+                result = await db.addEleve(req.body.nameEleve, req.body.lastNameEleve, id_class, req.body.emailEleve);
             }
-
-            console.log(raw_student);
-            console.log(student);
-
 
             res.json(result);
         })
@@ -145,7 +142,7 @@ router.post('/Note/:nameEleve/:lastNameEleve', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let raw_idEleve = await db.getIdEleve(req.params.nameEleve, req.params.lastNameEleve);
+            let raw_idEleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
             let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
 
             let raw_matiere = await db.getIdItemByName('matiere', 'nameMatiere', req.body.nameMatiere);
@@ -183,23 +180,26 @@ router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
         auth("aaa", "aaa", async () => {
             try {
 
-                let raw_idEleve = await db.getIdEleve(req.params.nameEleve, req.params.lastNameEleve);
-                let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
+                let raw_info_eleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
+                let id_eleve = JSON.parse(JSON.stringify(raw_info_eleve))[0].id_eleve;
+                let email_eleve = JSON.parse(JSON.stringify(raw_info_eleve))[0].emailEleve;
+
 
                 let configAbsence = {
                     id_eleve,
-                    dateStart: new Date(),
-                    dateEnd: new Date(),
+                    dateStart: req.body.dateStart,
+                    dateEnd: req.body.dateEnd,
                     isJustificate: req.body.isJustificate
                 }
 
                 let configEmail = {
-                    to: "hugo.borini@hetic.net",
+                    to: email_eleve,
                     from: "hugo.borini@hetic.net",
-                    subject: `absence du ${new Date()} au ${new Date()}`,
-                    text: "si le mail ne s'affiche pas bueno click la",
-                    html: `<h1>JUSTIFIE POTO</h1>`
-
+                    subject: `absence du ${dateStart} au ${dateEnd}`,
+                    text: `Absence du ${dateStart} au ${dateEnd}`,
+                    html: 
+                    `<h1>Absence</h1>
+                    <p>du ${dateStart} au ${dateEnd}</p>`
                 }
 
                 db.sendMail(configEmail)
