@@ -60,7 +60,7 @@ router.get('/NoteByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
 
     try {
         auth("aaa", "aaa", async () => {
-            let raw_idEleve = await db.getIdEleve(req.params.nameEleve, req.params.lastNameEleve);
+            let raw_idEleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
 
             let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;    
 
@@ -89,7 +89,7 @@ router.get('/AverageByEleve/:nameEleve/:lastNameEleve', async (req, res, next) =
             let tabMatiere = [];
             let globalMoyenne = {};
 
-            let raw_idEleve = await db.getIdEleve(req.params.nameEleve, req.params.lastNameEleve);
+            let raw_idEleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
 
             let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;    
 
@@ -229,7 +229,6 @@ router.get('/AverageByClass/:nameClass', async (req, res, next) => {
             globalMoyenne["moyenneGenerale"] = moyenne;
 
 
-
             const interval = setInterval(() => {
                 if(Object.keys(globalMoyenne).length > tabMatiere.length ){
                     clearInterval(interval)
@@ -267,9 +266,5 @@ router.get('/EleveBySearch/:nameEleve/:lastNameEleve', async (req, res, next) =>
     }
 
 })
-
-
-
-
 
 module.exports = router;

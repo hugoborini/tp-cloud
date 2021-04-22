@@ -15,7 +15,7 @@ const addJustification = require("./add/addJustification");
 const getIdClassByName = require("./get/getIdClassByName");
 const getIdItemByName = require("./get/getIdItemByName");
 
-const getIdEleve = require("./get/getIdEleve");
+const getInfoEleve = require("./get/getInfoEleve");
 const getProfInfo = require('./get/getProfInfo');
 const getElevesFromClass = require("./get/getElevesFromClass");
 const getNoteByEleve = require("./get/getNoteByEleve");
@@ -51,7 +51,7 @@ let data = {
     addJustification,
     getIdClassByName,
     getIdItemByName,
-    getIdEleve,
+    getInfoEleve,
     getProfInfo,
     getElevesFromClass,
     getNoteByEleve,
