@@ -27,6 +27,7 @@ const getElevesBySearch = require ("./get/getElevesBySearch")
 // UTILS FUNCTION 
 const checkIfMatiereExist = require("./utils/checkIfMatiereExist");
 const checkIfStudentExist = require("./utils/checkIfStudentExist");
+const sendMail = require("./utils/sendEmail");;
 
 
 require('dotenv').config()
@@ -59,7 +60,8 @@ let data = {
     getElevesBySearch,
     getNoteBytMatiereByEleve,
     checkIfMatiereExist,
-    checkIfStudentExist
+    checkIfStudentExist,
+    sendMail
 };
 
 data.all = () => {

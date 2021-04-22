@@ -80,7 +80,7 @@ typings/
 .env
 .env.test
 .env*.local
-
+sendgrid.env
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache

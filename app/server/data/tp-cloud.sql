@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le :  mer. 21 avr. 2021 à 21:38
+-- Généré le :  jeu. 22 avr. 2021 à 00:31
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.4.2
 
@@ -41,6 +41,18 @@ CREATE TABLE `assoc_class` (
   `isPrincipal` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `assoc_class`
+--
+
+INSERT INTO `assoc_class` (`id_assoc_class`, `id_prof`, `id_class`, `isPrincipal`) VALUES
+(1, '1', '1', 1),
+(2, '2', '1', 0),
+(3, '3', '1', 0),
+(4, '1', '2', 0),
+(5, '2', '1', 1),
+(6, '3', '2', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +63,14 @@ CREATE TABLE `class` (
   `id_class` int(11) NOT NULL,
   `nameClass` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `class`
+--
+
+INSERT INTO `class` (`id_class`, `nameClass`) VALUES
+(1, '5eme a'),
+(2, '6eme e');
 
 -- --------------------------------------------------------
 
@@ -65,6 +85,17 @@ CREATE TABLE `eleve` (
   `lastNameEleve` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `eleve`
+--
+
+INSERT INTO `eleve` (`id_eleves`, `id_class`, `nameEleve`, `lastNameEleve`) VALUES
+(1, 1, 'hugo', 'borini'),
+(2, 1, 'reda', 'hamouche'),
+(3, 2, 'hugo', 'cordilliot'),
+(4, 2, 'nawel', 'berrichi'),
+(5, 2, 'melina', 'chamayou');
+
 -- --------------------------------------------------------
 
 --
@@ -75,6 +106,17 @@ CREATE TABLE `matiere` (
   `id_matiere` int(11) NOT NULL,
   `nameMatiere` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `matiere`
+--
+
+INSERT INTO `matiere` (`id_matiere`, `nameMatiere`) VALUES
+(4, 'anglais'),
+(5, 'arabe'),
+(3, 'dessin'),
+(1, 'maths'),
+(2, 'sport');
 
 -- --------------------------------------------------------
 
@@ -93,6 +135,15 @@ CREATE TABLE `note` (
   `id_class` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `note`
+--
+
+INSERT INTO `note` (`id_notes`, `id_eleve`, `id_matiere`, `note`, `coef`, `dateNote`, `id_prof`, `id_class`) VALUES
+(1, 1, 1, 10, 2, '2021-04-22 00:30:19', 2, 1),
+(2, 2, 2, 20, 3, '2021-04-22 00:30:40', 3, 1),
+(3, 3, 4, 20, 2, '2021-04-22 00:31:02', 4, 2);
+
 -- --------------------------------------------------------
 
 --
@@ -105,6 +156,16 @@ CREATE TABLE `prof` (
   `nameProf` varchar(255) NOT NULL,
   `lastNameProf` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `prof`
+--
+
+INSERT INTO `prof` (`id_prof`, `id_matiere`, `nameProf`, `lastNameProf`) VALUES
+(5, 1, 'Bastien', 'Calou'),
+(6, 5, 'Quentin', 'Grancher'),
+(7, 3, 'Clement', 'Guidon'),
+(8, 2, 'Tony', 'Hawk');
 
 --
 -- Index pour les tables déchargées
@@ -168,34 +229,34 @@ ALTER TABLE `absence`
 -- AUTO_INCREMENT pour la table `assoc_class`
 --
 ALTER TABLE `assoc_class`
-  MODIFY `id_assoc_class` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_assoc_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `class`
 --
 ALTER TABLE `class`
-  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_class` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `eleve`
 --
 ALTER TABLE `eleve`
-  MODIFY `id_eleves` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_eleves` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `matiere`
 --
 ALTER TABLE `matiere`
-  MODIFY `id_matiere` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_matiere` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT pour la table `note`
 --
 ALTER TABLE `note`
-  MODIFY `id_notes` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_notes` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `prof`
 --
 ALTER TABLE `prof`
-  MODIFY `id_prof` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_prof` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;

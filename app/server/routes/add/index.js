@@ -193,6 +193,17 @@ router.post('/Absence/:nameEleve/:lastNameEleve', async (req, res, next) => {
                     isJustificate: req.body.isJustificate
                 }
 
+                let configEmail = {
+                    to: "hugo.borini@hetic.net",
+                    from: "hugo.borini@hetic.net",
+                    subject: `absence du ${new Date()} au ${new Date()}`,
+                    text: "si le mail ne s'affiche pas bueno click la",
+                    html: `<h1>JUSTIFIE POTO</h1>`
+
+                }
+
+                db.sendMail(configEmail)
+
                 let results = await db.addAbsence(configAbsence);
                 res.json(results);
             }
