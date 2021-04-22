@@ -267,4 +267,22 @@ router.get('/EleveBySearch/:nameEleve/:lastNameEleve', async (req, res, next) =>
 
 })
 
+router.get('/AbsenceByEleve/:nameEleve/:lastNameEleve', async (req, res, next) => {
+
+    try {
+        auth("aaa", "aaa", async () => {
+
+            let result = await db.getAbsenceByEleve(req.params.nameEleve, req.params.lastNameEleve);
+
+            res.json(result);
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
 module.exports = router;

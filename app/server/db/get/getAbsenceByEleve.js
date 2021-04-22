@@ -3,7 +3,7 @@ const pool = require("../config");
 
 const getAbsenceByEleve = (nameEleve, lastNameEleve) => {
     return new Promise((resolve, reject) => {
-        pool.query(`SELECT * FROM eleve WHERE nameEleve LIKE concat("${nameEleve}",'%') AND lastNameEleve LIKE concat("${lastNameEleve}", "%")`, (err, results) => {
+        pool.query(`SELECT * FROM absence INNER JOIN eleve ON absence.id_eleve = eleve.id_eleve WHERE eleve.nameEleve = ? AND eleve.lastNameEleve = ?`,[nameEleve, lastNameEleve], (err, results) => {
             if (err) {
                 return reject(err);
             }
