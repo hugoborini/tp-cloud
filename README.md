@@ -12,39 +12,42 @@
 
 
 
+
 ## documentation
 
-### add post :
+## Add post :
 
-#### pour ajouter une classe :
+#### Pour ajouter une classe :
     POST:: /add/Class
     params:
 		   nameClass (str)
-#### pour ajouter une matiere
+		   
+#### Pour ajouter une matiere
     POST:: /add/Matiere
     params:
 		   nameMatiere (str)
-#### pour ajouter un/une eleve
+		   
+#### Pour ajouter un/une eleve
     POST:: /add/Eleve
     params:
 		   nameEleve (str)
 		   lastNameEleve (str)
 		   nameClass (str)
-#### pour ajouter un/une prof
+#### Pour ajouter un/une prof
 
     POST:: /add/Prof
     params:
 		   nameProf (str)
 		   lastNameProf (str)
 		   nameMatiere (str)
-#### pour ajouter un/une prof a une class
+#### Pour ajouter un/une prof à une classe
     POST:: /add/ProfToClass
     params:
 		   nameProf (str)
 		   nameClass (str)
 		   isPrincipal (bool)
 		   
-#### pour assigner une note a un eleve
+#### Pour assigner une note à un eleve
     POST:: /add/Note/:nameEleve(str)/:lastNameEleve(str)
     params:
 		   nameMatiere (str)
@@ -54,50 +57,50 @@
 		   coef (int)
 		   dateNote (date)
 
-#### pour ajouter une absence a un/une eleve
+#### Pour ajouter une absence à un/une élève
     POST:: /add/Absence/:nameEleve(str)/:lastNameEleve(str)
     params:
 		   dateStart (date)
 		   dateEnd (date)
 		   isJustificate (bool)
 
-#### pour ajouter ou enlever une justification d'absence
+#### Pour ajouter ou enlever un justificatif d'absence
 
     POST:: /add/Justification/:id_absence(int)
     params:
 		   isJustificate (bool)
 
-### get post : 
+## Get post : 
 
-#### pour avoir les info d'un prof
+#### Pour avoir les informations d'un enseignant
     GET:: /get/Prof/:nameProf(str)
 
-#### pour avoir les eleve d'une classe
+#### Pour avoir les élèves d'une classe
 
     GET:: /get/EleveFromClass/:nameClass(str)
 
 
-#### pour avoir les notes d'un eleve 
+#### Pour avoir les notes d'un élève 
 
     GET:: /get/NoteByEleve/:nameEleve(str)/:lastNameEleve(str)
 
-#### pour avoir les moyennes d'un eleve
+#### Pour avoir les moyennes d'un élève
 
     GET :: /get/AverageByEleve/:nameEleve(str)/:lastNameEleve(str)
    
-#### pour avoir les notes d'une classe
+#### Pour avoir les notes d'une classe
 
     GET :: /get/NoteByClass/:nameClass(str)
     
-#### pour avoir les moyennes d'une classe
+#### Pour avoir les moyennes d'une classe
 	
     GET :: /get/AverageByClass/:nameClass(str)
 
-#### pour avoir les eleve par recherche
+#### Pour avoir les élèves par recherche
 
     GET :: /get//EleveBySearch/:nameEleve(str)/:lastNameEleve(str)
     
-### student
+### Student
 
  - [Melina Chamayou](https://github.com/Klochette)
  - [Reda Hamouche](https://github.com/RedaHamouche)

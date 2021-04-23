@@ -60,30 +60,35 @@ router.post('/:api_key_cl/Eleve', async (req, res, next) => {
     let API_KEYS_FR = await getAllApiKeys();
     try {
         auth(req.params.api_key_cl, API_KEYS_FR, async () => {
-            let id_requete = await db.getIdItemByName("class", "nameClass", req.body.nameClass);
+            try {
+                let id_requete = await db.getIdItemByName("class", "nameClass", req.body.nameClass);
 
-            let raw_student = await db.checkIfStudentExist(req.body.nameEleve, req.body.lastNameEleve);
-            let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
-            console.log(id_requete);
+                let raw_student = await db.checkIfStudentExist(req.body.nameEleve, req.body.lastNameEleve);
+                let id_class = JSON.parse(JSON.stringify(id_requete))[0].id_class;
+                console.log(id_requete);
 
-            let student = JSON.parse(JSON.stringify(raw_student))[0].student;
+                let student = JSON.parse(JSON.stringify(raw_student))[0].student;
 
-            let result;
-            let eleveInfos = {
-                nameEleve: req.body.nameEleve,
-                lastNameEleve: req.body.lastNameEleve,
-                id_class: id_class,
-                emailEleve: req.body.emailEleve,
-                numeroEleve: req.body.numeroEleve
+                let result;
+                let eleveInfos = {
+                    nameEleve: req.body.nameEleve,
+                    lastNameEleve: req.body.lastNameEleve,
+                    id_class: id_class,
+                    emailEleve: req.body.emailEleve,
+                    numeroEleve: req.body.numeroEleve
+                }
+                if (student > 0) {
+                    eleveInfos.lastNameEleve = `${req.body.lastNameEleve}_${student + 1}`;
+                    result = await db.addEleve(eleveInfos);
+                } else {
+                    result = await db.addEleve(eleveInfos);
+                }
+
+                res.json(result);
             }
-            if (student > 0) {
-                eleveInfos.lastNameEleve = `${req.body.lastNameEleve}_${student + 1}`;
-                result = await db.addEleve(eleveInfos);
-            } else {
-                result = await db.addEleve(eleveInfos);
+            catch (e) {
+                res.sendStatus(500)
             }
-
-            res.json(result);
         })
 
     } catch (e) {
@@ -97,15 +102,18 @@ router.post('/:api_key_cl/Prof', async (req, res, next) => {
     let API_KEYS_FR = await getAllApiKeys();
     try {
         auth(req.params.api_key_cl, API_KEYS_FR, async () => {
-            let id_requete = await db.getIdItemByName("matiere", "nameMatiere", req.body.nameMatiere);
+            try {
+                let id_requete = await db.getIdItemByName("matiere", "nameMatiere", req.body.nameMatiere);
 
-            let id_matiere = JSON.parse(JSON.stringify(id_requete))[0].id_matiere;
+                let id_matiere = JSON.parse(JSON.stringify(id_requete))[0].id_matiere;
 
-            let result = await db.addProf(req.body.nameProf, req.body.lastNameProf, id_matiere);
-            console.log(req.body);
-            res.json(result);
-
-
+                let result = await db.addProf(req.body.nameProf, req.body.lastNameProf, id_matiere);
+                console.log(req.body);
+                res.json(result);
+            }
+            catch (e) {
+                res.sendStatus(500)
+            }
         })
 
     } catch (e) {
@@ -119,23 +127,29 @@ router.post('/:api_key_cl/ProfToClass', async (req, res, next) => {
     let API_KEYS_FR = await getAllApiKeys();
     try {
         auth(req.params.api_key_cl, API_KEYS_FR, async () => {
-            let raw_id_prof = await db.getIdItemByName("prof", "nameProf", req.body.nameProf);
+            try {
 
-            let raw_id_class = await db.getIdItemByName("class", "nameClass", req.body.nameClass)
+                let raw_id_prof = await db.getIdItemByName("prof", "nameProf", req.body.nameProf);
 
-
-            let id_prof = JSON.parse(JSON.stringify(raw_id_prof))[0].id_prof;
-
-            let id_class = JSON.parse(JSON.stringify(raw_id_class))[0].id_class;
+                let raw_id_class = await db.getIdItemByName("class", "nameClass", req.body.nameClass)
 
 
-            console.log(id_prof)
+                let id_prof = JSON.parse(JSON.stringify(raw_id_prof))[0].id_prof;
 
-            console.log(id_class)
+                let id_class = JSON.parse(JSON.stringify(raw_id_class))[0].id_class;
 
-            let result = await db.addProfToLink(id_prof, id_class, req.body.isPrincipal);
-            //console.log(req.body);
-            res.json(result);
+
+                console.log(id_prof)
+
+                console.log(id_class)
+
+                let result = await db.addProfToLink(id_prof, id_class, req.body.isPrincipal);
+                //console.log(req.body);
+                res.json(result);
+            }
+            catch (e) {
+                res.sendStatus(500)
+            }
 
 
         })
@@ -153,30 +167,36 @@ router.post('/:api_key_cl/Note/:nameEleve/:lastNameEleve', async (req, res, next
     let API_KEYS_FR = await getAllApiKeys();
     try {
         auth(req.params.api_key_cl, API_KEYS_FR, async () => {
-            let raw_idEleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
-            let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
+            try {
 
-            let raw_matiere = await db.getIdItemByName('matiere', 'nameMatiere', req.body.nameMatiere);
-            let id_matiere = JSON.parse(JSON.stringify(raw_matiere))[0].id_matiere;
+                let raw_idEleve = await db.getInfoEleve(req.params.nameEleve, req.params.lastNameEleve);
+                let id_eleve = JSON.parse(JSON.stringify(raw_idEleve))[0].id_eleve;
 
-            let raw_prof = await db.getIdItemByName('prof', 'lastNameProf', req.body.lastNameProf);
-            let id_prof = JSON.parse(JSON.stringify(raw_prof))[0].id_prof;
+                let raw_matiere = await db.getIdItemByName('matiere', 'nameMatiere', req.body.nameMatiere);
+                let id_matiere = JSON.parse(JSON.stringify(raw_matiere))[0].id_matiere;
 
-            let raw_class = await db.getIdItemByName('class', 'nameClass', req.body.nameClass);
-            let id_class = JSON.parse(JSON.stringify(raw_class))[0].id_class;
+                let raw_prof = await db.getIdItemByName('prof', 'lastNameProf', req.body.lastNameProf);
+                let id_prof = JSON.parse(JSON.stringify(raw_prof))[0].id_prof;
+
+                let raw_class = await db.getIdItemByName('class', 'nameClass', req.body.nameClass);
+                let id_class = JSON.parse(JSON.stringify(raw_class))[0].id_class;
 
 
-            let noteConfig = {
-                id_eleve: id_eleve,
-                id_matiere: id_matiere,
-                note: req.body.note,
-                coef: req.body.coef,
-                dateNote: req.body.dateNote,
-                id_prof: id_prof,
-                id_class: id_class
+                let noteConfig = {
+                    id_eleve: id_eleve,
+                    id_matiere: id_matiere,
+                    note: req.body.note,
+                    coef: req.body.coef,
+                    dateNote: req.body.dateNote,
+                    id_prof: id_prof,
+                    id_class: id_class
+                }
+                let insert = await db.addNote(noteConfig)
+                res.json(insert);
             }
-            let insert = await db.addNote(noteConfig)
-            res.json(insert);
+            catch (e) {
+                res.sendStatus(500)
+            }
         });
 
     } catch (e) {
@@ -241,9 +261,13 @@ router.post('/:api_key_cl/addJustification/:id_absence', async (req, res, next) 
     let API_KEYS_FR = await getAllApiKeys();
     try {
         auth(req.params.api_key_cl, API_KEYS_FR, async () => {
-
-            let result = await db.addJustification(req.params.id_absence, req.body.isJustificate);
-            res.json(result);
+            try {
+                let result = await db.addJustification(req.params.id_absence, req.body.isJustificate);
+                res.json(result);
+            }
+            catch (e) {
+                res.sendStatus(500)
+            }
         })
 
     } catch (e) {
