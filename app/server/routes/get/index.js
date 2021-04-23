@@ -286,4 +286,42 @@ router.get('/:api_key_cl/AbsenceByEleve/:nameEleve/:lastNameEleve', async (req, 
 
 })
 
+
+router.get('/:api_key_cl/AllEleve', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
+    try {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
+
+            let result = await db.getAllEleves();
+
+            res.json(result);
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
+router.get('/:api_key_cl/AllProf', async (req, res, next) => {
+    let API_KEYS_FR = await getAllApiKeys();
+    try {
+        auth(req.params.api_key_cl, API_KEYS_FR, async () => {
+
+            let result = await db.getAllProf();
+
+            res.json(result);
+
+        })
+
+    } catch (e) {
+        console.log(e);
+        res.sendStatus(403);
+    }
+
+})
+
+
 module.exports = router;

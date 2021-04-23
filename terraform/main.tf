@@ -24,9 +24,6 @@ resource "heroku_build" "tp_cloud_app_prod" {
   source = {
     path = "../app"
   }
-  provisioner "local-exec" {
-      command = "bash ./scripts/testRes.sh ${heroku_app.tp_cloud_app_prod.web_url}"
-  }
 }
 
 output "web_url" {
